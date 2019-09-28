@@ -100,5 +100,10 @@ namespace GoogleDynamicDNSClient
         {
             UpdateHostIP();
         }
+
+        private void OnAbout(object sender, RoutedEventArgs e)
+        {
+            MessageBox.Show("Google Dynamic DNS Client\r\nby Russ Judge");
+        }
     }
 }

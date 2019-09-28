@@ -18,10 +18,10 @@ namespace GoogleDynamicDNSLibrary
             var host = Dns.GetHostEntry(hostname);
             foreach (var ip in host.AddressList)
             {
-                if (ip.AddressFamily == AddressFamily.InterNetwork)
-                {
+                //if (ip.AddressFamily == AddressFamily.InterNetwork)
+                //{
                     retVal = ip.ToString();
-                }
+                //}
             }
             return retVal;
         }

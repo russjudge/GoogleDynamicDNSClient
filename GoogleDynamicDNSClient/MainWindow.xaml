@@ -5,10 +5,11 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:GoogleDynamicDNSClient"
         mc:Ignorable="d" Name="uc"
-        Title="Google Dynamic DNS Client" SizeToContent="Height" Width="800">
+        Title="Google Dynamic DNS Client" SizeToContent="Height" Width="450" Icon="Resources/g.png" >
     <StackPanel>
         <Label Content="Google Dynamic DNS Client" FontSize="14" FontWeight="Black" />
         <TextBlock Text="This client will update the Google Dynamic DNS IP address for a host you own.  This will only work with Google." TextWrapping="Wrap"/>
+        <TextBlock Text="A Windows Service was also installed that will run whenver this server is running to automatically update the Google Dynamic DNS should it ever change" TextWrapping="Wrap" />
         <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition />
@@ -46,9 +47,20 @@
 
         <TextBlock Text="{Binding CurrentHostIP, ElementName=uc}" Grid.Row="3" Grid.Column="1"/>
         <TextBlock Text="{Binding ThisIP, ElementName=uc}" Grid.Row="4" Grid.Column="1"/>
-
-        <Button
-        <Button
+            <WrapPanel
+                Grid.Column="0"
+            Grid.Row="5">
+                <Button
+                HorizontalAlignment="Left" 
+                 Click="OnAbout"
+                Content="About" />
+                <!--<Button Content="Install Automatic Update Service"
+                        ToolTip="This will install Google Dynamic DNS Service that will always run while your server is running and update the DNS automatically."
+                        Click="OnInstallService"
+                        />-->
+            </WrapPanel>
+            
+            <Button
             Grid.Column="1"
             Grid.Row="5"
             Content="Update DNS" Click="OnUpdate"/>
