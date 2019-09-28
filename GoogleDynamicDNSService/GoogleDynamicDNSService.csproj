@@ -86,7 +86,7 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>xcopy "$(ProjectDir)$(OutDir)GoogleDynamicDNSService.exe" "$(SolutionDir)GoogleDynamicDNSClient\GoogleDynamicDNSService.exe" /S /E /V /C /R /Y
-xcopy "$(ProjectDir)$(OutDir)GoogleDynamicDNSService.exe.config" "$(SolutionDir)GoogleDynamicDNSClient\GoogleDynamicDNSService.exe.config" /S /E /V /C /R /Y</PostBuildEvent>
+    <PostBuildEvent>
+    </PostBuildEvent>
   </PropertyGroup>
 </Project>
