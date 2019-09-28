@@ -1,0 +1,57 @@
+﻿<Window x:Class="GoogleDynamicDNSClient.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:GoogleDynamicDNSClient"
+        mc:Ignorable="d" Name="uc"
+        Title="Google Dynamic DNS Client" SizeToContent="Height" Width="800">
+    <StackPanel>
+        <Label Content="Google Dynamic DNS Client" FontSize="14" FontWeight="Black" />
+        <TextBlock Text="This client will update the Google Dynamic DNS IP address for a host you own.  This will only work with Google." TextWrapping="Wrap"/>
+        <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition />
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition />
+            <RowDefinition />
+            <RowDefinition />
+            <RowDefinition />
+            <RowDefinition />
+            <RowDefinition />
+        </Grid.RowDefinitions>
+        <Label FontWeight="Black" Content="Hostname:" Grid.Row="0" Grid.Column="0" />
+        <Label FontWeight="Black" Content="Username:" Grid.Row="1" Grid.Column="0" />
+        <Label FontWeight="Black" Content="Password:" Grid.Row="2" Grid.Column="0" />
+
+        <TextBox
+            HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch"
+            Grid.Row="0" LostFocus="OnHostnameLostFocus"
+            Grid.Column="1"
+            Text="{Binding Path=Data.Hostname, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ElementName=uc}" />
+        <TextBox
+            HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch"
+            Grid.Row="1"
+            Grid.Column="1"
+            Text="{Binding Path=Data.Username, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay, ElementName=uc}" />
+        <TextBox HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch"
+            Grid.Row="2"
+            Grid.Column="1"
+            Text="{Binding Path=Data.Password, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay, ElementName=uc}" />
+
+        <Label FontWeight="Black" Content="Current Host IP:" Grid.Row="3" Grid.Column="0"/>
+        <Label FontWeight="Black" Content="This IP:" Grid.Row="4" Grid.Column="0"/>
+
+        <TextBlock Text="{Binding CurrentHostIP, ElementName=uc}" Grid.Row="3" Grid.Column="1"/>
+        <TextBlock Text="{Binding ThisIP, ElementName=uc}" Grid.Row="4" Grid.Column="1"/>
+
+        <Button
+        <Button
+            Grid.Column="1"
+            Grid.Row="5"
+            Content="Update DNS" Click="OnUpdate"/>
+    </Grid>
+    </StackPanel>
+</Window>
