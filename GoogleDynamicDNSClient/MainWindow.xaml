@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:GoogleDynamicDNSClient"
         mc:Ignorable="d" Name="uc" Height="500" Width="850"
-        Title="Google Dynamic DNS Client" Icon="Resources/g.png" >
+        Title="Google Dynamic DNS Client" Icon="Resources/g.png" Background="#FFFFF4CD" >
     <DockPanel>
         <Label DockPanel.Dock="Top"  Content="Google Dynamic DNS Client" FontSize="14" FontWeight="Black" />
         <TextBlock DockPanel.Dock="Top" Text="This client will update the Google Dynamic DNS IP address for a host you own.  This will only work with Google." TextWrapping="Wrap"/>

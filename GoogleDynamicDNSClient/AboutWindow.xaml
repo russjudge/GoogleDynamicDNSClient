@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:GoogleDynamicDNSClient" Name="uc"
         mc:Ignorable="d" Title="About Google Dynamic DNS Client" MinWidth="400" MaxWidth="400"
-        SizeToContent="WidthAndHeight" >
+        SizeToContent="WidthAndHeight" Background="#FFFDF9CC" >
     <StackPanel>
        
         <TextBlock
