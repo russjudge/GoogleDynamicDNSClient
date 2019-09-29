@@ -4,66 +4,124 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:GoogleDynamicDNSClient"
-        mc:Ignorable="d" Name="uc"
-        Title="Google Dynamic DNS Client" SizeToContent="Height" Width="450" Icon="Resources/g.png" >
-    <StackPanel>
-        <Label Content="Google Dynamic DNS Client" FontSize="14" FontWeight="Black" />
-        <TextBlock Text="This client will update the Google Dynamic DNS IP address for a host you own.  This will only work with Google." TextWrapping="Wrap"/>
-        <TextBlock Text="A Windows Service was also installed that will run whenver this server is running to automatically update the Google Dynamic DNS should it ever change" TextWrapping="Wrap" />
-        <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition />
-            <ColumnDefinition />
-        </Grid.ColumnDefinitions>
-        <Grid.RowDefinitions>
-            <RowDefinition />
-            <RowDefinition />
-            <RowDefinition />
-            <RowDefinition />
-            <RowDefinition />
-            <RowDefinition />
-        </Grid.RowDefinitions>
-        <Label FontWeight="Black" Content="Hostname:" Grid.Row="0" Grid.Column="0" />
-        <Label FontWeight="Black" Content="Username:" Grid.Row="1" Grid.Column="0" />
-        <Label FontWeight="Black" Content="Password:" Grid.Row="2" Grid.Column="0" />
-
-        <TextBox
-            HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch"
-            Grid.Row="0" LostFocus="OnHostnameLostFocus"
-            Grid.Column="1"
-            Text="{Binding Path=Data.Hostname, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ElementName=uc}" />
-        <TextBox
-            HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch"
-            Grid.Row="1"
-            Grid.Column="1"
-            Text="{Binding Path=Data.Username, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay, ElementName=uc}" />
-        <TextBox HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch"
-            Grid.Row="2"
-            Grid.Column="1"
-            Text="{Binding Path=Data.Password, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay, ElementName=uc}" />
-
-        <Label FontWeight="Black" Content="Current Host IP:" Grid.Row="3" Grid.Column="0"/>
-        <Label FontWeight="Black" Content="This IP:" Grid.Row="4" Grid.Column="0"/>
-
-        <TextBlock Text="{Binding CurrentHostIP, ElementName=uc}" Grid.Row="3" Grid.Column="1"/>
-        <TextBlock Text="{Binding ThisIP, ElementName=uc}" Grid.Row="4" Grid.Column="1"/>
-            <WrapPanel
-                Grid.Column="0"
-            Grid.Row="5">
-                <Button
+        mc:Ignorable="d" Name="uc" Height="500" Width="850"
+        Title="Google Dynamic DNS Client" Icon="Resources/g.png" >
+    <DockPanel>
+        <Label DockPanel.Dock="Top"  Content="Google Dynamic DNS Client" FontSize="14" FontWeight="Black" />
+        <TextBlock DockPanel.Dock="Top" Text="This client will update the Google Dynamic DNS IP address for a host you own.  This will only work with Google." TextWrapping="Wrap"/>
+        <TextBlock DockPanel.Dock="Top" Text="A Windows Service was also installed that will run whenver this server is running to automatically update the Google Dynamic DNS should it ever change" TextWrapping="Wrap" />
+        <DockPanel DockPanel.Dock="Bottom" >
+            <Button ToolTip="About"
                 HorizontalAlignment="Left" 
                  Click="OnAbout"
-                Content="About" />
-                <!--<Button Content="Install Automatic Update Service"
-                        ToolTip="This will install Google Dynamic DNS Service that will always run while your server is running and update the DNS automatically."
-                        Click="OnInstallService"
-                        />-->
-            </WrapPanel>
+                >
+                <Image Height="32" Source="/Resources/about.png" />
+            </Button>
             
-            <Button
-            Grid.Column="1"
-            Grid.Row="5"
-            Content="Update DNS" Click="OnUpdate"/>
-    </Grid>
-    </StackPanel>
+        </DockPanel>
+        <Grid DockPanel.Dock="Top">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="100"/>
+                <ColumnDefinition />
+                
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition />
+                <RowDefinition />
+                
+            </Grid.RowDefinitions>
+            
+            <Label VerticalAlignment="Center" VerticalContentAlignment="Center"  FontWeight="Black" Content="This IP:" Grid.Row="0" Grid.Column="0"/>
+            
+            <TextBlock VerticalAlignment="Center"  Text="{Binding ThisIP, ElementName=uc}" Grid.Row="0" Grid.Column="1"/>
+            <Label VerticalAlignment="Center" VerticalContentAlignment="Center" 
+                Grid.Row="1" Grid.Column="0"
+                FontWeight="Black" Content="New Host:" />
+            <DockPanel VerticalAlignment="Center" Grid.Row="1" Grid.Column="1">
+                <Button ToolTip="Add Host"
+                    DockPanel.Dock="Right"
+                    FontWeight="Black" Width="32" Click="OnAddHost" >
+                    <Image Height="32" Source="/Resources/add.png" />
+                </Button>
+                <TextBox VerticalAlignment="Center" VerticalContentAlignment="Center"  Text="{Binding Path=NewHost, Mode=TwoWay, ElementName=uc}" />
+            
+            </DockPanel>
+        </Grid>
+        <ListView ItemsSource="{Binding Data.Hosts, Mode=OneWay, ElementName=uc}">
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn Width="48">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <StackPanel Orientation="Horizontal">
+                                    
+                                    <Button DockPanel.Dock="Right" HorizontalAlignment="Right" 
+            
+            ToolTip="Update DNS" Click="OnUpdate">
+                                        <Image Height="32" Source="/Resources/update.png" />
+                                    </Button>
+                                </StackPanel>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn Width="290">
+                        <GridViewColumnHeader>
+                            <TextBlock Text="Host" FontWeight="Black" />
+                        </GridViewColumnHeader>
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding Hostname, Mode=OneWay}" />
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn Width="135">
+                        <GridViewColumnHeader>
+                            <TextBlock Text="Username" FontWeight="Black" />
+                        </GridViewColumnHeader>
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBox Width="120" HorizontalAlignment="Stretch" Text="{Binding Path=Username, Mode=TwoWay}" />
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn Width="135">
+                        <GridViewColumnHeader>
+                            <TextBlock    Text="Password" FontWeight="Black" />
+                        </GridViewColumnHeader>
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBox Width="120" HorizontalAlignment="Stretch" Text="{Binding Path=Password, Mode=TwoWay}" />
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn Width="160">
+                        <GridViewColumnHeader>
+                            <TextBlock    Text="Current IP" FontWeight="Black" />
+                        </GridViewColumnHeader>
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding Path=CurrentIP, Mode=TwoWay}" />
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn Width="48">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <StackPanel Orientation="Horizontal">
+                                    <Button Click="OnDelete"
+                                                CommandParameter="{Binding}"
+                                               ToolTip="Delete" >
+                                        <Image Height="32" Source="/Resources/delete.png" />
+                                    </Button>
+                                    
+                                </StackPanel>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                </GridView>
+            
+            </ListView.View>
+        </ListView>
+        
+    </DockPanel>
 </Window>

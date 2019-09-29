@@ -8,7 +8,7 @@ using System.Windows;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("Google Dynamic DNS Client")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyDescription("This application automatically will update Google Dynamic DNS for the selected hosts.")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Russ Judge")]
 [assembly: AssemblyProduct("Google Dynamic DNS Client")]
@@ -51,4 +51,4 @@ using System.Windows;
 // You can specify all the values or you can default the Build and Revision Numbers
 // by using the '*' as shown below:
 // [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("1.0.1.0")]
+[assembly: AssemblyVersion("1.0.2.0")]

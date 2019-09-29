@@ -30,35 +30,41 @@ namespace GoogleDynamicDNSService
         {
             timer.Stop();
             var data = new SaveData();
-            
-            if (!string.IsNullOrEmpty(data.Hostname) && GoogleDynamicDNSLibrary.Process.CheckIfUpdateRequired(data.Hostname))
+            bool oneSuccess = false;
+            foreach (var host in data.Hosts)
             {
-                var result = GoogleDynamicDNSLibrary.Process.SubmitUpdate(data.Username, data.Password, data.Hostname);
-                if (GoogleDynamicDNSLibrary.Responses.GetStatus(result))
+                if (!string.IsNullOrEmpty(host.Hostname) && GoogleDynamicDNSLibrary.Process.CheckIfUpdateRequired(host.Hostname))
                 {
-                    using (EventLog evtLog = new EventLog("Application"))
+                    var result = GoogleDynamicDNSLibrary.Process.SubmitUpdate(host.Username, host.Password, host.Hostname);
+                    if (GoogleDynamicDNSLibrary.Responses.GetStatus(result))
                     {
-                        evtLog.Source = "Application";
-                        evtLog.WriteEntry("Updated Google Dynamic DNS:\r\n" + Responses.GetDescription(result) + "\r\n(" + result + ")", EventLogEntryType.Information, 1, 1);
+                        using (EventLog evtLog = new EventLog("Application"))
+                        {
+                            evtLog.Source = "Application";
+                            evtLog.WriteEntry(string.Format("Updated Google Dynamic DNS, host={0}:\r\n{1}\r\n({2})", host.Hostname, Responses.GetDescription(result), result), EventLogEntryType.Information, 1, 1);
+                        }
+                        oneSuccess = true;
+                        timer.Interval = 60000;
                     }
-
-                    timer.Interval = 60000;
-                }
-                else
-                {
-                    using (EventLog evtLog = new EventLog("Application"))
+                    else
                     {
-                        evtLog.Source = "Application";
-                        evtLog.WriteEntry("Failed to update Google Dynamic DNS:\r\n" + Responses.GetDescription(result) + "\r\n(" + result + ")", EventLogEntryType.Error, 1, 1);
-                    }
+                        using (EventLog evtLog = new EventLog("Application"))
+                        {
+                            evtLog.Source = "Application";
+                            evtLog.WriteEntry(string.Format("Failed to update Google Dynamic DNS, host={0}:\r\n{1}\r\n({2})", host.Hostname, Responses.GetDescription(result), result), EventLogEntryType.Error, 1, 1);
+                        }
 
-                    if (timer.Interval < 360000)
-                    {
-                        timer.Interval += 60000;
                     }
                 }
             }
+            if (!oneSuccess)
+            {
 
+                if (timer.Interval < 360000)
+                {
+                    timer.Interval += 60000;
+                }
+            }
             timer.Start();
         }
 

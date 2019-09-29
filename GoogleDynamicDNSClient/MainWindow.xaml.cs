@@ -45,6 +45,48 @@ namespace GoogleDynamicDNSClient
             }
         }
 
+        public static readonly DependencyProperty SelectedHostProperty =
+            DependencyProperty.Register("SelectedHost", typeof(HostConfig),
+            typeof(MainWindow), new PropertyMetadata(OnSelectedHostChanged));
+
+        private static void OnSelectedHostChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            MainWindow me = d as MainWindow;
+            if (me != null)
+            {
+                me.UpdateHostIP();
+            }
+        }
+
+        public HostConfig SelectedHost
+        {
+            get
+            {
+                return (HostConfig)GetValue(SelectedHostProperty);
+            }
+            set
+            {
+                this.SetValue(SelectedHostProperty, value);
+            }
+        }
+
+
+        public static readonly DependencyProperty NewHostProperty =
+         DependencyProperty.Register("NewHost", typeof(string),
+         typeof(MainWindow));
+        public string NewHost
+        {
+            get
+            {
+                return (string)GetValue(NewHostProperty);
+            }
+            set
+            {
+                this.SetValue(NewHostProperty, value);
+            }
+        }
+
+
         public static readonly DependencyProperty CurrentHostIPProperty =
          DependencyProperty.Register("CurrentHostIP", typeof(string),
          typeof(MainWindow));
@@ -76,7 +118,7 @@ namespace GoogleDynamicDNSClient
         }
         private void OnUpdate(object sender, RoutedEventArgs e)
         {
-            string result = Process.SubmitUpdate(Data.Username, Data.Password, Data.Hostname);
+            string result = Process.SubmitUpdate(SelectedHost.Username, SelectedHost.Password, SelectedHost.Hostname);
             if (Responses.GetStatus(result))
             {
                 UpdateHostIP();
@@ -91,9 +133,9 @@ namespace GoogleDynamicDNSClient
        
         void UpdateHostIP()
         {
-            if (!string.IsNullOrEmpty(Data.Hostname))
+            if (SelectedHost != null && !string.IsNullOrEmpty(SelectedHost.Hostname))
             {
-                CurrentHostIP = Process.GetIP(Data.Hostname);
+                CurrentHostIP = Process.GetIP(SelectedHost.Hostname);
             }
         }
         private void OnHostnameLostFocus(object sender, RoutedEventArgs e)
@@ -103,7 +145,36 @@ namespace GoogleDynamicDNSClient
 
         private void OnAbout(object sender, RoutedEventArgs e)
         {
-            MessageBox.Show("Google Dynamic DNS Client\r\nby Russ Judge");
+            AboutWindow win = new AboutWindow();
+            win.ShowDialog();
+        }
+
+        private void OnAddHost(object sender, RoutedEventArgs e)
+        {
+            
+            if (!string.IsNullOrEmpty(NewHost))
+            {
+                var newHost = new HostConfig(NewHost);
+                Data.Hosts.Add(newHost);
+            }
+            else
+            {
+                MessageBox.Show("Please enter the host name first", "Add Host", MessageBoxButton.OK, MessageBoxImage.Hand);
+            }
+        }
+
+        private void OnDelete(object sender, RoutedEventArgs e)
+        {
+            Button btn = sender as Button;
+            if (btn != null)
+            {
+                HostConfig host = btn.CommandParameter as HostConfig;
+                if (host != null)
+                {
+                    host.Delete();
+                    Data.Hosts.Remove(host);
+                }
+            }
         }
     }
 }
