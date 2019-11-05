@@ -34,10 +34,10 @@ namespace GoogleDynamicDNSLibrary
             get;
             private set;
         }
-        public const string URL = "https://{0}:{1}@domains.google.com/nic/update";
-        public const string UserAgent = "Google Dynamic DNS Client by Russ Judge";
-        public const string hostname = "hostname";
-        public const string myip = "myip";
+        
+        public const string UserAgent = "RJ Dynamic DNS Client by Russ Judge";
+        
+        
         public const string offline = "offline";
         public const string IPCheckURL = "https://domains.google.com/checkip";
         public const string Software = "Software";

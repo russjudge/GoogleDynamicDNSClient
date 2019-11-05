@@ -1,6 +1,8 @@
 ﻿using GoogleDynamicDNSLibrary;
+using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -24,6 +26,13 @@ namespace GoogleDynamicDNSClient
         
         public MainWindow()
         {
+            Services = new ObservableCollection<KeyValuePair<string,string>>();
+            
+            foreach (var key in DynProcessor.ProcessorList.Keys)
+            {
+                var item = new KeyValuePair<string, string>(key, DynProcessor.ProcessorList[key]);
+                Services.Add(item);
+            }
             InitializeComponent();
             Data = new SaveData();
             UpdateHostIP();
@@ -67,6 +76,20 @@ namespace GoogleDynamicDNSClient
             set
             {
                 this.SetValue(SelectedHostProperty, value);
+            }
+        }
+        public static readonly DependencyProperty ServicesProperty =
+       DependencyProperty.Register("Services", typeof(ObservableCollection<KeyValuePair<string, string>>),
+       typeof(MainWindow));
+        public ObservableCollection<KeyValuePair<string,string>> Services
+        {
+            get
+            {
+                return (ObservableCollection<KeyValuePair<string, string>>)GetValue(ServicesProperty);
+            }
+            set
+            {
+                this.SetValue(ServicesProperty, value);
             }
         }
 
@@ -118,16 +141,26 @@ namespace GoogleDynamicDNSClient
         }
         private void OnUpdate(object sender, RoutedEventArgs e)
         {
-            string result = Process.SubmitUpdate(SelectedHost.Username, SelectedHost.Password, SelectedHost.Hostname);
-            if (Responses.GetStatus(result))
+            Button btn = sender as Button;
+            if (btn != null)
             {
-                UpdateHostIP();
-            }
-            else
-            {
-                MessageBox.Show("Update Failed:\r\n" + Responses.GetDescription(result));
+                HostConfig config = btn.CommandParameter as HostConfig;
+                if (config != null)
+                {
+                    DynProcessor processor = DynProcessor.GetProcessor(config);
+                    if (processor.SubmitUpdate())
+                    {
+                        UpdateHostIP();
+                        MessageBox.Show(processor.StatusMessage);
+                    }
+                    else
+                    {
+                        MessageBox.Show("Update Failed:\r\n" + processor.StatusMessage);
 
+                    }
+                }
             }
+            
         }
 
        
@@ -175,6 +208,20 @@ namespace GoogleDynamicDNSClient
                     Data.Hosts.Remove(host);
                 }
             }
+        }
+
+        private void ImportGoogle(object sender, RoutedEventArgs e)
+        {
+            var list = Registry.CurrentUser.OpenSubKey(Constants.Software).OpenSubKey(Constants.Company).OpenSubKey("Google Dynamic DNS Client").GetSubKeyNames();
+            foreach (var key in list)
+            {
+                var host = new HostConfig(key);
+                host.Username = Registry.CurrentUser.OpenSubKey(Constants.Software).OpenSubKey(Constants.Company).OpenSubKey("Google Dynamic DNS Client").OpenSubKey(host.Hostname).GetValue(nameof(HostConfig.Username)) as string;
+                host.Password = Registry.CurrentUser.OpenSubKey(Constants.Software).OpenSubKey(Constants.Company).OpenSubKey("Google Dynamic DNS Client").OpenSubKey(host.Hostname).GetValue(nameof(HostConfig.Password), null) as string;
+                host.Processor = Registry.CurrentUser.OpenSubKey(Constants.Software).OpenSubKey(Constants.Company).OpenSubKey("Google Dynamic DNS Client").OpenSubKey(host.Hostname).GetValue(nameof(HostConfig.Processor), nameof(GoogleDynProcessor)) as string;
+                Data.Hosts.Add(host);
+            }
+            MessageBox.Show("Import complete");
         }
     }
 }

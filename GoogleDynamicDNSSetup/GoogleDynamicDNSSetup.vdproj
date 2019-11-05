@@ -70,7 +70,7 @@
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_3635D44387DD46C5B4044C518BA3C1C8"
+        "OwnerKey" = "8:_B4CC8A3E26EE7D2065BACBAAFE0C3322"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -82,7 +82,7 @@
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_B4CC8A3E26EE7D2065BACBAAFE0C3322"
+        "OwnerKey" = "8:_3635D44387DD46C5B4044C518BA3C1C8"
         "MsmSig" = "8:_UNDEFINED"
         }
     }
@@ -142,6 +142,14 @@
             "PrerequisitesLocation" = "2:1"
             "Url" = "8:"
             "ComponentsUrl" = "8:"
+                "Items"
+                {
+                    "{EDC2488A-8267-493A-A98E-7D9C3B36CDF3}:.NETFramework,Version=v4.6.1"
+                    {
+                    "Name" = "8:Microsoft .NET Framework 4.6.1 (x86 and x64)"
+                    "ProductCode" = "8:.NETFramework,Version=v4.6.1"
+                    }
+                }
             }
         }
     }
@@ -255,11 +263,6 @@
             "AssemblyAsmDisplayName" = "8:GoogleDynamicDNSLibrary, Version=1.0.2.0, Culture=neutral, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
-                    "_559904DFFF52EC5F51CA1A924033186E"
-                    {
-                    "Name" = "8:GoogleDynamicDNSLibrary.dll"
-                    "Attributes" = "3:512"
-                    }
                 }
             "SourcePath" = "8:GoogleDynamicDNSLibrary.dll"
             "TargetName" = "8:"
@@ -286,11 +289,6 @@
             "AssemblyAsmDisplayName" = "8:System.Net.Http, Version=4.2.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a"
                 "ScatterAssemblies"
                 {
-                    "_B4CC8A3E26EE7D2065BACBAAFE0C3322"
-                    {
-                    "Name" = "8:System.Net.Http.dll"
-                    "Attributes" = "3:512"
-                    }
                 }
             "SourcePath" = "8:System.Net.Http.dll"
             "TargetName" = "8:"
@@ -397,24 +395,24 @@
         {
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:Google Dynamic DNS"
-        "ProductCode" = "8:{CA186FCB-85A2-47D4-A2EC-533E0C9D181B}"
-        "PackageCode" = "8:{1EC77D23-E337-4B7C-83E4-48510884DE90}"
+        "ProductCode" = "8:{809D1736-19D6-46CA-B049-BCB49C16C6DA}"
+        "PackageCode" = "8:{778CCAF1-A139-484A-822F-782247910E55}"
         "UpgradeCode" = "8:{013B3B57-5E5A-4336-8C72-D1F7970FBB4A}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"
-        "RemovePreviousVersions" = "11:FALSE"
+        "RemovePreviousVersions" = "11:TRUE"
         "DetectNewerInstalledVersion" = "11:TRUE"
         "InstallAllUsers" = "11:TRUE"
-        "ProductVersion" = "8:1.0.0"
+        "ProductVersion" = "8:1.1.0"
         "Manufacturer" = "8:Russ Judge"
         "ARPHELPTELEPHONE" = "8:"
         "ARPHELPLINK" = "8:"
         "Title" = "8:Google Dynamic DNS Setup"
         "Subject" = "8:"
         "ARPCONTACT" = "8:Russ Judge"
-        "Keywords" = "8:"
+        "Keywords" = "8:Dynamic DNS"
         "ARPCOMMENTS" = "8:"
-        "ARPURLINFOABOUT" = "8:"
+        "ARPURLINFOABOUT" = "8:https://russjudge.com"
         "ARPPRODUCTICON" = "8:_E953E12C121640498CB63AB70AA5C536"
         "ARPIconIndex" = "3:0"
         "SearchPath" = "8:"

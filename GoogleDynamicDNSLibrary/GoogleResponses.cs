@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace GoogleDynamicDNSLibrary
 {
-    public static class Responses
+    public static class GoogleResponses
     {
         public const string good= "good";
         public const string nochg = "nochg";
@@ -18,7 +18,7 @@ namespace GoogleDynamicDNSLibrary
         public const string x911 = "911";
         public const string conflict = "conflict";
 
-        static Responses()
+        static GoogleResponses()
         {
             ResponseStatus.Add(good, true);
             ResponseStatus.Add(nochg, true);

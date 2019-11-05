@@ -17,11 +17,14 @@ namespace GoogleDynamicDNSLibrary
             Hostname = host;
             Username = Registry.CurrentUser.OpenSubKey(Constants.Software).OpenSubKey(Constants.Company).OpenSubKey(Constants.Application).OpenSubKey(Hostname).GetValue(nameof(Username), null) as string;
             Password = Registry.CurrentUser.OpenSubKey(Constants.Software).OpenSubKey(Constants.Company).OpenSubKey(Constants.Application).OpenSubKey(Hostname).GetValue(nameof(Password), null) as string;
-        
+            Processor = Registry.CurrentUser.OpenSubKey(Constants.Software).OpenSubKey(Constants.Company).OpenSubKey(Constants.Application).OpenSubKey(Hostname).GetValue(nameof(Processor), nameof(GoogleDynProcessor)) as string;
+
         }
         string _hostname = null;
         string _username = null;
         string _password = null;
+        string _processor = null;
+
         public void Delete()
         {
             //Registry.CurrentUser.OpenSubKey(Constants.Software, true).CreateSubKey(Constants.Company, true).CreateSubKey(Constants.Application, true).OpenSubKey(Hostname).DeleteValue(nameof(Username));
@@ -37,6 +40,27 @@ namespace GoogleDynamicDNSLibrary
             if (!string.IsNullOrEmpty(Password))
             {
                 Registry.CurrentUser.OpenSubKey(Constants.Software, true).CreateSubKey(Constants.Company, true).CreateSubKey(Constants.Application, true).CreateSubKey(Hostname, true).SetValue(nameof(Password), Password);
+            }
+            if (!string.IsNullOrEmpty(Processor))
+            {
+                Registry.CurrentUser.OpenSubKey(Constants.Software, true).CreateSubKey(Constants.Company, true).CreateSubKey(Constants.Application, true).CreateSubKey(Hostname, true).SetValue(nameof(Processor), Processor);
+            }
+
+        }
+        public string Processor
+        {
+            get
+            {
+                return _processor;
+            }
+            set
+            {
+               
+                _processor = value;
+              
+                SaveProperties();
+               
+                DoChanged();
             }
         }
         public string Hostname
@@ -89,6 +113,7 @@ namespace GoogleDynamicDNSLibrary
                 DoChanged();
             }
         }
+
         string _currentIP = string.Empty;
         public string CurrentIP
         {

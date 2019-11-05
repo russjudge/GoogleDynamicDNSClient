@@ -43,8 +43,8 @@
             this.serviceInstaller1.DelayedAutoStart = true;
             this.serviceInstaller1.Description = "This will auto update the IP address of your Google Dynamic DNS Host.  (By Russ J" +
     "udge)";
-            this.serviceInstaller1.DisplayName = "Google Dynamic DNS Service";
-            this.serviceInstaller1.ServiceName = "Google Dynamic DNS Service";
+            this.serviceInstaller1.DisplayName = "RJ Dynamic DNS Service";
+            this.serviceInstaller1.ServiceName = "RJ Dynamic DNS Service";
             this.serviceInstaller1.StartType = System.ServiceProcess.ServiceStartMode.Automatic;
             this.serviceInstaller1.AfterInstall += new System.Configuration.Install.InstallEventHandler(this.serviceInstaller1_AfterInstall);
             // 

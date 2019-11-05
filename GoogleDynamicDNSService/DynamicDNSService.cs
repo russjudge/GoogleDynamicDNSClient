@@ -35,13 +35,15 @@ namespace GoogleDynamicDNSService
             {
                 if (!string.IsNullOrEmpty(host.Hostname) && GoogleDynamicDNSLibrary.Process.CheckIfUpdateRequired(host.Hostname))
                 {
-                    var result = GoogleDynamicDNSLibrary.Process.SubmitUpdate(host.Username, host.Password, host.Hostname);
-                    if (GoogleDynamicDNSLibrary.Responses.GetStatus(result))
+                    var processor = DynProcessor.GetProcessor(host);
+                    if (processor.SubmitUpdate())
                     {
                         using (EventLog evtLog = new EventLog("Application"))
                         {
                             evtLog.Source = "Application";
-                            evtLog.WriteEntry(string.Format("Updated Google Dynamic DNS, host={0}:\r\n{1}\r\n({2})", host.Hostname, Responses.GetDescription(result), result), EventLogEntryType.Information, 1, 1);
+                            evtLog.WriteEntry(string.Format("Updated {3}, host={0}:\r\n{1}\r\n({2})",
+                                host.Hostname, processor.StatusMessage, processor.ResultCode, processor.GetProcessorName()), 
+                                EventLogEntryType.Information, 1, 1);
                         }
                         oneSuccess = true;
                         timer.Interval = 60000;
@@ -51,7 +53,9 @@ namespace GoogleDynamicDNSService
                         using (EventLog evtLog = new EventLog("Application"))
                         {
                             evtLog.Source = "Application";
-                            evtLog.WriteEntry(string.Format("Failed to update Google Dynamic DNS, host={0}:\r\n{1}\r\n({2})", host.Hostname, Responses.GetDescription(result), result), EventLogEntryType.Error, 1, 1);
+                            evtLog.WriteEntry(string.Format("Failed to update {3}, host={0}:\r\n{1}\r\n({2})",
+                                host.Hostname,  processor.StatusMessage, processor.ResultCode, processor.GetProcessorName()),
+                                EventLogEntryType.Error, 1, 1);
                         }
 
                     }

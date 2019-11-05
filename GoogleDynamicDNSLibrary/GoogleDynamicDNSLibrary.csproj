@@ -43,7 +43,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AfraidDynProcessor.cs" />
     <Compile Include="Constants.cs" />
+    <Compile Include="DynDNSDynProcessor.cs" />
+    <Compile Include="GoogleDynProcessor.cs" />
     <Compile Include="HostConfig.cs" />
     <Compile Include="Process.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -52,7 +55,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Include="Responses.cs" />
+    <Compile Include="GoogleResponses.cs" />
     <Compile Include="SaveData.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -63,6 +66,9 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Resources\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="DynProcessor.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

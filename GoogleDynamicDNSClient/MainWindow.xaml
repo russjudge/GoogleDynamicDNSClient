@@ -4,12 +4,15 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:GoogleDynamicDNSClient"
-        mc:Ignorable="d" Name="uc" Height="500" Width="850"
-        Title="Google Dynamic DNS Client" Icon="Resources/g.png" Background="#FFFFF4CD" >
+        mc:Ignorable="d" Name="uc" Height="500" SizeToContent="Width"
+        Title="RJ Dynamic DNS Client" Icon="Resources/g.png" Background="#FFFFF4CD" >
     <DockPanel>
-        <Label DockPanel.Dock="Top"  Content="Google Dynamic DNS Client" FontSize="14" FontWeight="Black" />
-        <TextBlock DockPanel.Dock="Top" Text="This client will update the Google Dynamic DNS IP address for a host you own.  This will only work with Google." TextWrapping="Wrap"/>
-        <TextBlock DockPanel.Dock="Top" Text="A Windows Service was also installed that will run whenver this server is running to automatically update the Google Dynamic DNS should it ever change" TextWrapping="Wrap" />
+        <DockPanel DockPanel.Dock="Top">
+            <Button DockPanel.Dock="Right" Content="Import Settings from Google Dynamic DNS Client" Click="ImportGoogle"/>
+            <Label DockPanel.Dock="Left"  Content="RJ Dynamic DNS Client" FontSize="14" FontWeight="Black" />
+        </DockPanel>
+        <TextBlock DockPanel.Dock="Top" Text="This client will update the Dynamic DNS IP address for a host you own." TextWrapping="Wrap"/>
+        <TextBlock DockPanel.Dock="Top" Text="A Windows Service was also installed that will run whenver this server is running to automatically update the Dynamic DNS should it ever change" TextWrapping="Wrap" />
         <DockPanel DockPanel.Dock="Bottom" >
             <Button ToolTip="About"
                 HorizontalAlignment="Left" 
@@ -56,7 +59,7 @@
                                 <StackPanel Orientation="Horizontal">
                                     
                                     <Button DockPanel.Dock="Right" HorizontalAlignment="Right" 
-            
+            CommandParameter="{Binding}"
             ToolTip="Update DNS" Click="OnUpdate">
                                         <Image Height="32" Source="/Resources/update.png" />
                                     </Button>
@@ -64,13 +67,27 @@
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
-                    <GridViewColumn Width="290">
+                   
+                    <GridViewColumn Width="200">
                         <GridViewColumnHeader>
                             <TextBlock Text="Host" FontWeight="Black" />
                         </GridViewColumnHeader>
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
                                 <TextBlock Text="{Binding Hostname, Mode=OneWay}" />
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn Width="150">
+                        <GridViewColumnHeader>
+                            <TextBlock Text="Service" FontWeight="Black" />
+                        </GridViewColumnHeader>
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <ComboBox HorizontalAlignment="Stretch" 
+                                    SelectedValuePath="Key"
+                                    DisplayMemberPath="Value"
+                                    SelectedValue="{Binding Path=Processor, Mode=TwoWay}" ItemsSource="{Binding Services, ElementName=uc}"></ComboBox>
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>

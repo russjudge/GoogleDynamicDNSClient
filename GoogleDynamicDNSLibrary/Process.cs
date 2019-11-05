@@ -31,38 +31,7 @@ namespace GoogleDynamicDNSLibrary
             string localIP = GetPublicIP();
             return !hostIP.Equals(localIP);
         }
-        public static string SubmitUpdate(string username, string password,
-            string hostname)
-        {
-            string publicIP = GetPublicIP();
-            string requeststring = string.Format(Constants.URL, username, password) + "?" + Constants.hostname + "=" + hostname + "&" + Constants.myip + "=" + publicIP;
-            var request = (HttpWebRequest)WebRequest.Create(requeststring);
-
-            request.UserAgent = Constants.UserAgent;
-            //request.Method = "POST";
-            request.Method = "GET";
-            request.Credentials = new NetworkCredential(username, password);
-            //NameValueCollection outgoingQueryString =
-            //    System.Web.HttpUtility.ParseQueryString(String.Empty);
-
-            //outgoingQueryString.Add(Constants.hostname, hostname);
-            //outgoingQueryString.Add(Constants.myip, publicIP);
-            //string postdata = outgoingQueryString.ToString();
-            //byte[] buffer = System.Text.ASCIIEncoding.ASCII.GetBytes(postdata);
-            //request.ContentType = "application/x-www-form-urlencoded";
-            //request.ContentLength = buffer.Length;
-            //using (var stream = request.GetRequestStream())
-            //{
-            //    stream.Write(buffer, 0, buffer.Length);
-            //}
-            var response = (HttpWebResponse)request.GetResponse();
-            string retVal = null;
-            using (var sr = new StreamReader(response.GetResponseStream()))
-            {
-                retVal = sr.ReadToEnd();
-            }
-            return retVal;
-        }
+        
         public static string GetPublicIP()
         {
             var request = (HttpWebRequest)WebRequest.Create(Constants.IPCheckURL);
